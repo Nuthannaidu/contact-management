@@ -43,62 +43,54 @@ export default function Register() {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      register();
-    }
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md animate-slide-up">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Create Account</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
+          <p className="text-slate-400">Join us to manage your contacts</p>
         </div>
 
-        <div className="rounded-2xl p-8 shadow-2xl">
+        <div className="glass-effect rounded-2xl p-8 shadow-2xl">
           <div className="space-y-5">
             <input
               type="text"
               placeholder="Full Name"
               value={name}
-              onChange={e => setName(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="w-full px-4 py-3 rounded-lg"
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none"
             />
 
             <input
               type="email"
               placeholder="Email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="w-full px-4 py-3 rounded-lg"
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none"
             />
 
             <input
               type="password"
               placeholder="Password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="w-full px-4 py-3 rounded-lg"
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none"
             />
 
             <button
               onClick={register}
               disabled={loading}
-              className="w-full py-3 rounded-lg"
+              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg shadow-lg disabled:opacity-50"
             >
               {loading ? "Creating account..." : "Create Account"}
             </button>
           </div>
 
-          <div className="mt-6 text-center">
-            <p>
-              Already have an account?{" "}
-              <Link to="/login">Sign In</Link>
-            </p>
+          <div className="mt-6 text-center text-slate-400">
+            Already have an account?{" "}
+            <Link to="/login" className="text-purple-400 hover:text-purple-300 font-semibold">
+              Sign In
+            </Link>
           </div>
         </div>
       </div>
