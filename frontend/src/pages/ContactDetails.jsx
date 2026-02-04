@@ -9,6 +9,7 @@ export default function ContactDetails({ token }) {
     name: "",
     phone: "",
     email: "",
+    company: "",
     notes: ""
   });
 
@@ -17,7 +18,6 @@ export default function ContactDetails({ token }) {
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  // helpers
   const isValidPhone = phone => /^[0-9]{10}$/.test(phone);
   const isValidEmail = email =>
     !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -32,7 +32,13 @@ export default function ContactDetails({ token }) {
       if (!res.ok) throw new Error();
 
       const data = await res.json();
-      setContact(data);
+      setContact({
+        name: data.name || "",
+        phone: data.phone || "",
+        email: data.email || "",
+        company: data.company || "",
+        notes: data.notes || ""
+      });
     } catch {
       alert("Failed to load contact");
       navigate("/");
@@ -100,7 +106,7 @@ export default function ContactDetails({ token }) {
 
     try {
       await fetch(
-        `http://localhost:5000/api/contacts/${id}`,
+        `${import.meta.env.VITE_URL_API}/api/contacts/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` }
@@ -136,7 +142,6 @@ export default function ContactDetails({ token }) {
           <h1 className="text-3xl font-bold mb-6">Edit Contact</h1>
 
           <div className="space-y-5">
-            {/* Name */}
             <input
               type="text"
               value={contact.name}
@@ -147,7 +152,6 @@ export default function ContactDetails({ token }) {
               className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white"
             />
 
-            {/* Phone */}
             <div>
               <input
                 type="tel"
@@ -168,11 +172,10 @@ export default function ContactDetails({ token }) {
               )}
             </div>
 
-            {/* Email */}
             <div>
               <input
                 type="email"
-                value={contact.email || ""}
+                value={contact.email}
                 onChange={e => {
                   setContact({ ...contact, email: e.target.value });
                   setEmailError("");
@@ -187,10 +190,19 @@ export default function ContactDetails({ token }) {
               )}
             </div>
 
-            {/* Notes */}
+            <input
+              type="text"
+              value={contact.company}
+              onChange={e =>
+                setContact({ ...contact, company: e.target.value })
+              }
+              placeholder="Company"
+              className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white"
+            />
+
             <textarea
               rows={4}
-              value={contact.notes || ""}
+              value={contact.notes}
               onChange={e =>
                 setContact({ ...contact, notes: e.target.value })
               }
@@ -198,7 +210,6 @@ export default function ContactDetails({ token }) {
               className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white"
             />
 
-            {/* Actions */}
             <div className="flex gap-3 pt-4">
               <button
                 onClick={updateContact}
