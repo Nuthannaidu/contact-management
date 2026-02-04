@@ -18,6 +18,9 @@ export default function Dashboard({ token }) {
   const [search, setSearch] = useState("");
   const [selectedContact, setSelectedContact] = useState(null);
   const [userName] = useState(getUserNameFromToken(token));
+  const [showForm, setShowForm] = useState(true);
+
+  const isMobile = window.innerWidth < 1024;
 
   const loadContacts = async () => {
     try {
@@ -45,6 +48,10 @@ export default function Dashboard({ token }) {
 
   useEffect(() => {
     loadContacts();
+
+    if (isMobile && search.trim() !== "") {
+      setShowForm(false);
+    }
   }, [search]);
 
   const logout = () => {
@@ -72,37 +79,46 @@ export default function Dashboard({ token }) {
                   {userName.charAt(0).toUpperCase()}
                 </div>
                 <div className="leading-tight">
-                  <p className="text-white font-medium text-sm">
-                    {userName}
-                  </p>
+                  <p className="text-white font-medium text-sm">{userName}</p>
                   <p className="text-slate-400 text-xs">Logged in</p>
                 </div>
               </div>
 
               <button
                 onClick={logout}
-                className="flex items-center gap-2 px-5 py-2.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-300 rounded-lg transition-all"
+                className="px-5 py-2.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-300 rounded-lg transition-all"
               >
                 Logout
               </button>
             </div>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-4">
             <SearchBar setSearch={setSearch} />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <div className="glass-effect rounded-2xl p-6 shadow-xl sticky top-8">
-                <h2 className="text-xl font-semibold text-white mb-4">
-                  Add New Contact
-                </h2>
-                <ContactForm token={token} refresh={loadContacts} />
-              </div>
-            </div>
+          {isMobile && (
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="mb-4 w-full py-2 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-lg"
+            >
+              {showForm ? "Hide Add Contact" : "Add New Contact"}
+            </button>
+          )}
 
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {showForm && (
+              <div className="lg:col-span-1">
+                <div className="glass-effect rounded-2xl p-6 shadow-xl sticky top-8">
+                  <h2 className="text-xl font-semibold text-white mb-4">
+                    Add New Contact
+                  </h2>
+                  <ContactForm token={token} refresh={loadContacts} />
+                </div>
+              </div>
+            )}
+
+            <div className={showForm ? "lg:col-span-2" : "lg:col-span-3"}>
               <div className="glass-effect rounded-2xl p-6 shadow-xl">
                 <h2 className="text-xl font-semibold text-white mb-4 flex justify-between items-center">
                   <span>Your Contacts</span>
