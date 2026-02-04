@@ -6,7 +6,6 @@ export default function ContactViewModal({ contact, onClose }) {
       <div className="relative w-full max-w-md mx-4 animate-slide-up">
         <div className="glass-effect rounded-2xl p-6 shadow-2xl border border-white/20">
           
-          {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl font-bold text-white">Contact Details</h2>
@@ -21,14 +20,12 @@ export default function ContactViewModal({ contact, onClose }) {
             </button>
           </div>
 
-          {/* Avatar */}
           <div className="flex justify-center mb-6">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-3xl font-bold shadow-lg shadow-purple-500/40">
               {contact.name.charAt(0).toUpperCase()}
             </div>
           </div>
 
-          {/* Details */}
           <div className="space-y-4 text-slate-300">
             <div className="bg-slate-800/40 rounded-lg p-4">
               <p className="text-xs uppercase tracking-wide text-slate-400 mb-1">Name</p>
@@ -47,6 +44,13 @@ export default function ContactViewModal({ contact, onClose }) {
               </p>
             </div>
 
+            <div className="bg-slate-800/40 rounded-lg p-4">
+              <p className="text-xs uppercase tracking-wide text-slate-400 mb-1">Company</p>
+              <p className="text-base">
+                {contact.company || "Not provided"}
+              </p>
+            </div>
+
             {contact.notes && (
               <div className="bg-slate-800/40 rounded-lg p-4">
                 <p className="text-xs uppercase tracking-wide text-slate-400 mb-1">Notes</p>
@@ -55,7 +59,6 @@ export default function ContactViewModal({ contact, onClose }) {
             )}
           </div>
 
-          {/* Footer */}
           <div className="mt-6 flex justify-end">
             <button
               onClick={onClose}
