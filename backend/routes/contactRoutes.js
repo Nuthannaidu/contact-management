@@ -6,7 +6,7 @@ const {
   getContacts,
   updateContact,
   deleteContact
-} = require("../controllers/contactController");
+} = require("../controllers/contactcontroller");
 
 router.use(auth);
 
