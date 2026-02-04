@@ -26,7 +26,7 @@ export default function ContactForm({ token, refresh }) {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/contacts", {
+      const res = await fetch(`${import.meta.env.VITE_URL_API}/api/auth/contacts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

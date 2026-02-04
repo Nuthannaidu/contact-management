@@ -25,7 +25,7 @@ export default function ContactDetails({ token }) {
   const loadContact = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/contacts/${id}`,
+        `${import.meta.env.VITE_URL_API}api/contacts/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

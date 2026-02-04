@@ -10,7 +10,7 @@ export default function Dashboard({ token }) {
   const loadContacts = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/contacts?search=${search}`,
+       `${import.meta.env.VITE_URL_API}/api/contacts?search=${search}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
