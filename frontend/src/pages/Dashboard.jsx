@@ -4,10 +4,20 @@ import ContactList from "../components/ContactList";
 import SearchBar from "../components/SearchBar";
 import ContactViewModal from "../components/ContactViewModal";
 
+function getUserNameFromToken(token) {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.name || "User";
+  } catch {
+    return "User";
+  }
+}
+
 export default function Dashboard({ token }) {
   const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedContact, setSelectedContact] = useState(null);
+  const [userName] = useState(getUserNameFromToken(token));
 
   const loadContacts = async () => {
     try {
@@ -59,11 +69,13 @@ export default function Dashboard({ token }) {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3 bg-slate-800/40 border border-slate-700/50 rounded-xl px-4 py-2">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold shadow-lg shadow-purple-500/30">
-                  U
+                  {userName.charAt(0).toUpperCase()}
                 </div>
                 <div className="leading-tight">
-                  <p className="text-white font-medium text-sm">Logged in</p>
-                  <p className="text-slate-400 text-xs">User</p>
+                  <p className="text-white font-medium text-sm">
+                    {userName}
+                  </p>
+                  <p className="text-slate-400 text-xs">Logged in</p>
                 </div>
               </div>
 
