@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
-export default function ContactList({ contacts = [], token, refresh }) {
+export default function ContactList({ contacts = [], token, refresh, onView }) {
   const navigate = useNavigate();
 
-  const del = async id => {
+  const del = async (id) => {
     if (!window.confirm("Are you sure you want to delete this contact?")) {
       return;
     }
@@ -14,7 +14,7 @@ export default function ContactList({ contacts = [], token, refresh }) {
         headers: { Authorization: `Bearer ${token}` }
       });
       refresh();
-    } catch (error) {
+    } catch {
       alert("Failed to delete contact");
     }
   };
@@ -42,8 +42,11 @@ export default function ContactList({ contacts = [], token, refresh }) {
           style={{ animationDelay: `${index * 50}ms` }}
         >
           <div className="flex items-center justify-between gap-4">
-            {/* Contact Info */}
-            <div className="flex items-center gap-4 flex-1 min-w-0">
+            {/* CLICKABLE CONTACT INFO (opens popup) */}
+            <div
+              onClick={() => onView && onView(c)}
+              className="flex items-center gap-4 flex-1 min-w-0 cursor-pointer"
+            >
               <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold text-lg shadow-lg shadow-purple-500/30">
                 {c.name.charAt(0).toUpperCase()}
               </div>
@@ -53,10 +56,13 @@ export default function ContactList({ contacts = [], token, refresh }) {
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* ACTION BUTTONS */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
-                onClick={() => navigate(`/contact/${c._id}`)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/contact/${c._id}`);
+                }}
                 className="p-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/50 text-purple-300 rounded-lg transition-all"
                 title="Edit contact"
               >
@@ -66,7 +72,10 @@ export default function ContactList({ contacts = [], token, refresh }) {
               </button>
 
               <button
-                onClick={() => del(c._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  del(c._id);
+                }}
                 className="p-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-300 rounded-lg transition-all"
                 title="Delete contact"
               >
