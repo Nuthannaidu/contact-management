@@ -10,8 +10,10 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://contact-management-9bjnqaftw-siddus-projects-320cc678.vercel.app"
-  ]
+    "https://contact-management-1-1fpw.onrender.com"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
