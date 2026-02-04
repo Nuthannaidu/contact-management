@@ -15,6 +15,11 @@ export default function ContactForm({ token, refresh }) {
       return;
     }
 
+    if (!/^[0-9]{10}$/.test(phone)) {
+      alert("Phone number must be exactly 10 digits");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -56,9 +61,12 @@ export default function ContactForm({ token, refresh }) {
 
       <input
         type="tel"
+        maxLength={10}
         placeholder="Phone Number *"
         value={phone}
-        onChange={(e) => setPhone(e.target.value)}
+        onChange={(e) =>
+          setPhone(e.target.value.replace(/\D/g, ""))
+        }
         className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none"
       />
 
