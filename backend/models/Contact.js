@@ -27,6 +27,12 @@ const contactSchema = new mongoose.Schema(
       match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"]
     },
 
+    company: {
+      type: String,
+      default: "",
+      trim: true
+    },
+
     notes: {
       type: String,
       default: ""
